@@ -5,3 +5,5 @@ Script desenvolvido para consultar postagem de vídeos entre um determinado inte
 - Rode o comando -yarn ou -npm para adicionar dependências;
 - Adicione um arquivo .env a raiz do projeto para armazenamento das variáveis de acesso;
 - utilize o comando node ytbWebHook.js para rodar o script
+
+## O script utiliza de um arquivo txt para armazenar o Id do ultimo vídeo encontrado.
