@@ -20,19 +20,19 @@ const parameters = {
   publishedBefore: hoje.toISOString()
 }
 
-const saveLastVideoId = (videoId) => {
-  if (!videoId) return;
+const saveLastVideoId = (videoData) => {
+  if (!videoData) return;
 
   fs.readFile('lastVideo.txt', 'utf8', (err, archData) => {
-    if (err || videoId !== archData) {
-      fs.writeFile('lastVideo.txt', videoId, (err) => {
+    if (err || videoData.videoId !== archData) {
+      fs.writeFile('lastVideo.txt', videoData.videoId, (err) => {
         if (err) return console.log('Erro ao gravar ID do vídeo');
 
-        console.log('ID novo gravado com sucesso:', videoId);
+        console.log('ID novo gravado com sucesso:', videoData.videoId);
 
         //Notifica o Discord
         axios.post(webhook, {
-          content: `🎬 @everyone \nNovo vídeo no canal! Assista agora: https://www.youtube.com/watch?v=${videoId}`
+          content: `🎬 @everyone\nNovo vídeo no canal!\n${videoData.title}\n${videoData.description}\nAssista agora: https://www.youtube.com/watch?v=${videoData.videoId}`
         }).then(() => {
           console.log('Notificação enviada ao Discord');
         }).catch((e) => {
@@ -54,8 +54,12 @@ const newVideoSearch = async () => {
 
     console.log(JSON.stringify(result.data, null, 2));
     if (result.data.items[0]) {
-      const data = result.data.items[0].id.videoId
-      saveLastVideoId(data)
+      const videoData = {
+        videoId: result.data.items[0].id.videoId,
+        title: result.data.items[0].snippet.title,
+        description: result.data.items[0].snippet.description
+      }
+      saveLastVideoId(videoData)
     } else {
       console.log()
     }
