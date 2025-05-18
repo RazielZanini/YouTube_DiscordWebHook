@@ -32,7 +32,7 @@ const saveLastVideoId = (videoId) => {
 
         //Notifica o Discord
         axios.post(webhook, {
-          content: `🎬 Novo vídeo no canal! Assista agora: https://www.youtube.com/watch?v=${videoId}`
+          content: `🎬 @everyone \nNovo vídeo no canal! Assista agora: https://www.youtube.com/watch?v=${videoId}`
         }).then(() => {
           console.log('Notificação enviada ao Discord');
         }).catch((e) => {
